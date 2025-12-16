@@ -45,7 +45,7 @@ public class CategoriesController
         return categoryDao.getAllCategories(categoryId,name, description);
     }
 
-
+    @GetMapping("{id}")
     // add the appropriate annotation for a get action
     public Category getById(@PathVariable int id )
     {

@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import org.yearup.models.Category;
 import org.yearup.models.Profile;
 import org.yearup.data.ProfileDao;
 import org.yearup.data.UserDao;
@@ -94,6 +95,36 @@ public class AuthenticationController {
         }
     }
 
+    @PutMapping("{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public void updateProfile(@PathVariable int id, @RequestBody Profile profile)
+    {
+        try
+        {
+            profileDao.create(profile);
+        }
+        catch(Exception ex)
+        {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
+        }
+    }
+    @GetMapping("{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public Profile getById(@PathVariable int id )
+    {
+        try
+        {
+            var profile = profileDao.getByUserId(id);
 
+            if(profile == null)
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+
+            return profile;
+        }
+        catch(Exception ex)
+        {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
+        }
+    }
 }
 
