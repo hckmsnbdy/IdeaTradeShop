@@ -111,15 +111,21 @@ public class CategoriesController
     {
         try
         {
-            categoryDao.create(category);
+            var existing = categoryDao.getById(id);
+            if(existing == null)
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+
+            categoryDao.update(id, category);
+        }
+        catch(ResponseStatusException ex)
+        {
+            throw ex;
         }
         catch(Exception ex)
         {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
-        // update the category by id
     }
-
 
     // add annotation to call this method for a DELETE action - the url path must include the categoryId
     // add annotation to ensure that only an ADMIN can call this function
