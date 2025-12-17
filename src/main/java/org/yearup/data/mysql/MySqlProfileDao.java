@@ -41,25 +41,15 @@ public class MySqlProfileDao extends MySqlDaoBase implements ProfileDao
     @Override
     public Profile create(Profile profile)
     {
-        String sql = "INSERT INTO profiles (user_id, first_name, last_name, phone, email, address, city, state, zip) " +
-                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO profiles (user_id) VALUES (?)";
 
         try(Connection connection = getConnection())
         {
             PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setInt(1, profile.getUserId());
-            ps.setString(2, profile.getFirstName());
-            ps.setString(3, profile.getLastName());
-            ps.setString(4, profile.getPhone());
-            ps.setString(5, profile.getEmail());
-            ps.setString(6, profile.getAddress());
-            ps.setString(7, profile.getCity());
-            ps.setString(8, profile.getState());
-            ps.setString(9, profile.getZip());
-
             ps.executeUpdate();
 
-            return profile;
+            return getByUserId(profile.getUserId());
         }
         catch (SQLException e)
         {
@@ -70,7 +60,7 @@ public class MySqlProfileDao extends MySqlDaoBase implements ProfileDao
     @Override
     public void update(Profile profile)
     {
-        String sql = "UPDATE profile" +
+        String sql = "UPDATE profiles" +
                 " SET user_id = ? " +
                 "   , first_name = ? " +
                 "   , last_name = ? " +
@@ -87,14 +77,14 @@ public class MySqlProfileDao extends MySqlDaoBase implements ProfileDao
             PreparedStatement statement = connection.prepareStatement(sql);
 
             statement.setInt(1, profile.getUserId());
-            statement.setString(1, profile.getFirstName());
-            statement.setString(4, profile.getLastName());
-            statement.setString(1, profile.getPhone());
-            statement.setString(1, profile.getEmail());
-            statement.setString(1, profile.getAddress());
-            statement.setString(1, profile.getCity());
-            statement.setString(1, profile.getState());
-            statement.setString(1, profile.getZip());
+            statement.setString(2, profile.getFirstName());
+            statement.setString(3, profile.getLastName());
+            statement.setString(4, profile.getPhone());
+            statement.setString(5, profile.getEmail());
+            statement.setString(6, profile.getAddress());
+            statement.setString(7, profile.getCity());
+            statement.setString(8, profile.getState());
+            statement.setString(9, profile.getZip());
 
             statement.executeUpdate();
         }

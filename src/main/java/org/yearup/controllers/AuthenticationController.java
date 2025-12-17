@@ -89,8 +89,13 @@ public class AuthenticationController {
 
             return new ResponseEntity<>(user, HttpStatus.CREATED);
         }
+        catch (ResponseStatusException e)
+        {
+            throw e;
+        }
         catch (Exception e)
         {
+            e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
     }
