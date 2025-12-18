@@ -100,6 +100,7 @@ public class AuthenticationController {
         }
     }
 
+
     @PutMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void updateProfile(@PathVariable int id, @RequestBody Profile profile)
